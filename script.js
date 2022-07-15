@@ -1,6 +1,7 @@
 // Api link for data gov environment data
 const apiUrl = 'https://api.data.gov.sg/v1/environment/psi'
 var environmentData = null;
+var psi = null;
 
 fetch(apiUrl)
     .then(response => response.json())
@@ -10,40 +11,29 @@ fetch(apiUrl)
         environmentData = data.items[0].readings
         locationData = data.region_metadata[0].label_location
         // console.log(environmentData)
-        console.log(locationData)
+        // console.log(locationData)
+        psi = environmentData.psi_twenty_four_hourly
 
-        // var longitute1 = data.region_metadata[0].label_location.
-        var latitude1 = data.region_metadata[0].label_location.latitude
-        var longitude1 = data.region_metadata[0].label_location.longitude
+        console.log(psi)
 
-        // Omitted 
-        // var latitude2 = data.region_metadata[1].label_location.latitude
-        // var longitude2 = data.region_metadata[1].label_location.longitude
+        // West Long
+        var westLat = data.region_metadata[0].label_location.latitude
+        var westLong = data.region_metadata[0].label_location.longitude
 
-        var latitude2 = data.region_metadata[2].label_location.latitude
-        var longitude2 = data.region_metadata[2].label_location.longitude
+        var eastLat = data.region_metadata[2].label_location.latitude
+        var eastLong = data.region_metadata[2].label_location.longitude
 
-        var latitude3 = data.region_metadata[3].label_location.latitude
-        var longitude3 = data.region_metadata[3].label_location.longitude
+        var centLat = data.region_metadata[3].label_location.latitude
+        var centLong = data.region_metadata[3].label_location.longitude
 
-        var latitude4 = data.region_metadata[4].label_location.latitude
-        var longitude4 = data.region_metadata[4].label_location.longitude
+        var southLat = data.region_metadata[4].label_location.latitude
+        var southLong = data.region_metadata[4].label_location.longitude
 
-        var latitude5 = data.region_metadata[5].label_location.latitude
-        var longitude5 = data.region_metadata[5].label_location.longitude
+        var northLat = data.region_metadata[5].label_location.latitude
+        var northLong = data.region_metadata[5].label_location.longitude
 
-        console.log(latitude2)
-        console.log(longitude2)
 
-        console.log(latitude3)
-        console.log(longitude3)
-
-        console.log(latitude4)
-        console.log(longitude4)
-
-        console.log(latitude5)
-        console.log(longitude5)
-
+        
         // Object.keys(environmentData).map(key => {
         //     console.log(environmentData[key]);
 
@@ -72,40 +62,59 @@ fetch(apiUrl)
 
 
         // Drawing the circle based on the latitude and longitude    
-        var circle1 = L.circle([latitude1, longitude1], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 500
-        }).addTo(map);
+        var westCircle = L.marker([westLat, westLong], {
+            icon: L.divIcon({
+                className: 'my-custom-icon',
+                html: psi.west
+            })
+        });
 
-        var circle2 = L.circle([latitude2, longitude2], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 500
-        }).addTo(map);
+        westCircle.addTo(map);
 
-        var circle3 = L.circle([latitude3, longitude3], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 500
-        }).addTo(map);
+        var eastCircle = L.marker([eastLat, eastLong], {
+            icon: L.divIcon({
+                className: 'my-custom-icon',
+                html: psi.east
+            })
+        });
 
-        var circle4 = L.circle([latitude4, longitude4], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 500
-        }).addTo(map);
+        eastCircle.addTo(map);
 
-        var circle5 = L.circle([latitude5, longitude5], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 500
-        }).addTo(map);
+        var centCircle = L.marker([centLat, centLong], {
+            icon: L.divIcon({
+                className: 'my-custom-icon',
+                html: psi.central
+            })
+        });
+
+        centCircle.addTo(map);
+
+        var southCircle = L.marker([southLat, southLong], {
+            icon: L.divIcon({
+                className: 'my-custom-icon',
+                html: psi.south
+            })
+        });
+
+        southCircle.addTo(map);
+
+        var northCircle = L.marker([northLat, northLong], {
+            icon: L.divIcon({
+                className: 'my-custom-icon',
+                html: psi.north
+            })
+        });
+
+        northCircle.addTo(map);
+
+
+        
+        // var circle5 = L.circle([latitude5, longitude5], {
+        //     color: 'red',
+        //     fillColor: '#f03',
+        //     fillOpacity: 0.5,
+        //     radius: 500
+        // }).addTo(map);
 
 
     });
