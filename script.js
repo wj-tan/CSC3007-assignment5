@@ -10,13 +10,9 @@ fetch(apiUrl)
         // Store Json data in environmentData variable
         environmentData = data.items[0].readings
         locationData = data.region_metadata[0].label_location
-        // console.log(environmentData)
-        // console.log(locationData)
         psi = environmentData.psi_twenty_four_hourly
 
-        console.log(psi)
-
-        // West Long
+        // Declare long and lat of Singapore regions
         var westLat = data.region_metadata[0].label_location.latitude
         var westLong = data.region_metadata[0].label_location.longitude
 
@@ -32,16 +28,6 @@ fetch(apiUrl)
         var northLat = data.region_metadata[5].label_location.latitude
         var northLong = data.region_metadata[5].label_location.longitude
 
-
-        
-        // Object.keys(environmentData).map(key => {
-        //     console.log(environmentData[key]);
-
-        // })
-
-        // Object.values(environmentData).map(value => {
-        //     console.log(value);
-        // })
 
         let tiles = new L.tileLayer('https://maps-{s}.onemap.sg/v3/Default/{z}/{x}/{y}.png', {
             detectRetina: true,
@@ -61,11 +47,12 @@ fetch(apiUrl)
             .addLayer(tiles);
 
 
-        // Drawing the circle based on the latitude and longitude    
+
+        // Drawing the circle based on the latitude and longitude declared above    
         var westCircle = L.marker([westLat, westLong], {
             icon: L.divIcon({
                 className: 'my-custom-icon',
-                html: psi.west
+                html: psi.west // Value is retrieved from api
             })
         });
 
@@ -106,15 +93,6 @@ fetch(apiUrl)
         });
 
         northCircle.addTo(map);
-
-
-        
-        // var circle5 = L.circle([latitude5, longitude5], {
-        //     color: 'red',
-        //     fillColor: '#f03',
-        //     fillOpacity: 0.5,
-        //     radius: 500
-        // }).addTo(map);
 
 
     });
